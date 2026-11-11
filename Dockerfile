@@ -26,10 +26,12 @@ RUN if [ "$INSTALL_EASYOCR" = "true" ]; then \
 # ---- runtime ----
 FROM python:3.11-slim
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get upgrade -y \
+    && apt-get install -y --no-install-recommends \
     tesseract-ocr \
     poppler-utils \
     libgomp1 \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /opt/venv /opt/venv
